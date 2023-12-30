@@ -1,2 +1,2 @@
-# Scanpath-based-Dynamic-Disease-Classifier
+# Scanpath-based-Disease-Classifier
 ## The codes will be released soon.
