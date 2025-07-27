@@ -82,14 +82,14 @@ def main(args):
                 traj[0, ind] = locations[0][127]
                 traj[1, ind] = locations[1][7]
  
-            np.save('MIMIC-JPG/train_scan/'+ image_basename[0][:-4],traj)
+            np.save('result_scanpaths/'+ image_basename[0][:-4],traj)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_path', type=str, default='models/' , help='path for saving trained models')
     parser.add_argument('--image_resize', type=int, default=256 , help='input image to be resized to')
-    parser.add_argument('--test_path', type=str,default = 'MIMIC-JPG/images/train_pad_pt/', help='input image for generating caption')
+    parser.add_argument('--test_path', type=str,default = 'dataset/new_test/', help='input image for generating caption')
     
     # Model parameters (should be same as paramters in train.py)
     parser.add_argument('--num_epochs', type=int, default=201)
