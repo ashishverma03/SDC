@@ -23,25 +23,25 @@ class TrajDataset(data.Dataset):
 
     def __init__(self, image_resize, feat_sz, data_path, transform=None, is_train=1):     
         self.root_img = data_path
-        self.root_cap = data_path
+        self.root_scan = data_path
         self.is_train = is_train
         self.transform = transform
         self.image_resize = image_resize
         self.feat_sz = feat_sz
 
-        files_captions = getFileNamesFromFolder(self.root_cap, ".npy")
+        files_scanpaths = getFileNamesFromFolder(self.root_scan, ".npy")
 
-        self.list_sample = sorted(files_captions)
+        self.list_sample = sorted(files_scanpaths)
 
 
     def __getitem__(self, index):
-        caption_basename = self.list_sample[index]
-        print(caption_basename)
+        scanpath_basename = self.list_sample[index]
+        print(scanpath_basename)
 
-        path_captions = os.path.join(self.root_cap, caption_basename)
-        path_img = os.path.join(self.root_img, caption_basename[:-4]+'.jpg')
+        path_scanpaths = os.path.join(self.root_scan, scanpath_basename)
+        path_img = os.path.join(self.root_img, scanpath_basename[:-4]+'.jpg')
 
-        assert os.path.exists(path_captions), '[{}] does not exist'.format(path_captions)
+        assert os.path.exists(path_scanpaths), '[{}] does not exist'.format(path_scanpaths)
         assert os.path.exists(path_img), '[{}] does not exist'.format(path_img)
 
         image = Image.open(path_img)
@@ -50,13 +50,13 @@ class TrajDataset(data.Dataset):
         if self.transform is not None:
             image = self.transform(image)
         
-        captions = np.load(path_captions)
-        captions = np.transpose(captions)
-        captions = np.squeeze(captions.astype(int))
+        scanpaths = np.load(path_scanpaths)
+        scanpaths = np.transpose(scanpaths)
+        scanpaths = np.squeeze(scanpaths.astype(int))
         
-        target = torch.from_numpy(captions)
+        target = torch.from_numpy(scanpaths)
 
-        return image, target, caption_basename
+        return image, target, scanpath_basename
 
     def __len__(self):
         return len(self.list_sample)
