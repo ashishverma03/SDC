@@ -93,7 +93,7 @@ def main(args):
             (score, align, f) = ScanMatchwithoutDuration.match(sequence1_wod, sequence2_wod)
             mm_score[i] = score
             
-            np.save('Class_seqID_test/'+ scanpath_basename[0][:-4],traj)
+            np.save('result_scanpaths/REFLACX/'+ scanpath_basename[0][:-4],traj)
 
         mm_score_epoch = np.mean(mm_score,axis=0)
         log_file.write('\n[Epoch {}] Validation: {}'.format(epoch, mm_score_epoch))
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_path', type=str, default='models/' , help='path for saving trained models')
     parser.add_argument('--image_resize', type=int, default=256 , help='input image to be resized to')
-    parser.add_argument('--test_path', type=str,default = 'data/test/', help='input image for generating scanpath')
+    parser.add_argument('--test_path', type=str,default = 'dataset/test/', help='input image for generating scanpath')
     
     # Model parameters (should be same as paramters in train.py)
     parser.add_argument('--num_epochs', type=int, default=201)
