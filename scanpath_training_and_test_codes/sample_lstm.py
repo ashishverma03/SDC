@@ -60,7 +60,7 @@ def main(args):
 
         # Prepare an image
         mm_score = np.zeros((len(test_data_loader),4))
-        for i, (images, captions, caption_basename) in enumerate(test_data_loader):
+        for i, (images, scanpaths, scanpath_basename) in enumerate(test_data_loader):
             image_tensor = images.to(device)
             
             feature = encoder(image_tensor)
@@ -86,14 +86,14 @@ def main(args):
 
 
             sequence1_wod = ScanMatchwithoutDuration.fixationToSequence(np.transpose(traj)).astype(np.int32)
-            captions = captions.squeeze(0)
-            captions = captions.cpu().numpy()
-            sequence2_wod = ScanMatchwithoutDuration.fixationToSequence(np.transpose(captions)).astype(np.int32)
+            scanpaths = scanpaths.squeeze(0)
+            scanpaths = scanpaths.cpu().numpy()
+            sequence2_wod = ScanMatchwithoutDuration.fixationToSequence(np.transpose(scanpaths)).astype(np.int32)
             
             (score, align, f) = ScanMatchwithoutDuration.match(sequence1_wod, sequence2_wod)
             mm_score[i] = score
             
-            np.save('Class_seqID_test/'+ caption_basename[0][:-4],traj)
+            np.save('Class_seqID_test/'+ scanpath_basename[0][:-4],traj)
 
         mm_score_epoch = np.mean(mm_score,axis=0)
         log_file.write('\n[Epoch {}] Validation: {}'.format(epoch, mm_score_epoch))
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_path', type=str, default='models/' , help='path for saving trained models')
     parser.add_argument('--image_resize', type=int, default=256 , help='input image to be resized to')
-    parser.add_argument('--test_path', type=str,default = 'data/test/', help='input image for generating caption')
+    parser.add_argument('--test_path', type=str,default = 'data/test/', help='input image for generating scanpath')
     
     # Model parameters (should be same as paramters in train.py)
     parser.add_argument('--num_epochs', type=int, default=201)
