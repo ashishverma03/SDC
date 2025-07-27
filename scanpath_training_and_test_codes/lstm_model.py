@@ -36,10 +36,10 @@ class DecoderRNN(nn.Module):
         self.linear2 = nn.Linear(embed_size+256, 256)  # for image feature size reduction
         self.max_seg_length = max_seq_length
         
-    def forward(self, features, captions, lengths):
+    def forward(self, features, scanpaths, lengths):
 
         features1 = self.linear2(features)
-        embeddings = self.embed(captions)
+        embeddings = self.embed(scanpaths)
         features1 = features1.unsqueeze(1).repeat(1,embeddings.size()[1],1)
         embeddings = torch.cat((features1, embeddings), 2)
         embeddings = torch.cat((features.unsqueeze(1), embeddings), 1)
