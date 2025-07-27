@@ -23,22 +23,22 @@ class TrajDataset(data.Dataset):
 
     def __init__(self, image_resize, feat_sz, data_path, transform=None, is_train=1):     
         self.root_img = data_path
-        self.root_cap = data_path
+        self.root_scan = data_path
         self.is_train = is_train
         self.transform = transform
         self.image_resize = image_resize
         self.feat_sz = feat_sz
 
-        files_captions = getFileNamesFromFolder(self.root_cap, ".npy")
-        self.list_sample = sorted(files_captions)
+        files_scanpaths = getFileNamesFromFolder(self.root_scan, ".npy")
+        self.list_sample = sorted(files_scanpaths)
 
     def __getitem__(self, index):
-        caption_basename = self.list_sample[index]
+        scan_basename = self.list_sample[index]
 
-        path_captions = os.path.join(self.root_cap, caption_basename)
-        path_img = os.path.join(self.root_img, caption_basename[:-4]+'.jpg')
+        path_scanpaths = os.path.join(self.root_scan, scan_basename)
+        path_img = os.path.join(self.root_img, scan_basename[:-4]+'.jpg')
 
-        assert os.path.exists(path_captions), '[{}] does not exist'.format(path_captions)
+        assert os.path.exists(path_scanpaths), '[{}] does not exist'.format(path_scanpaths)
         assert os.path.exists(path_img), '[{}] does not exist'.format(path_img)
 
         image = Image.open(path_img)
@@ -47,12 +47,12 @@ class TrajDataset(data.Dataset):
         if self.transform is not None:
             image = self.transform(image)
         
-        captions = np.load(path_captions)
-        captions = np.transpose(captions)
-        captions = self.FixationtoclassID(captions, 256, self.feat_sz)
-        captions = np.squeeze(captions.astype(int))
+        scanpaths = np.load(path_scanpaths)
+        scanpaths = np.transpose(scanpaths)
+        scanpaths = self.FixationtoclassID(scanpaths, 256, self.feat_sz)
+        scanpaths = np.squeeze(scanpaths.astype(int))
         
-        target = torch.from_numpy(captions)
+        target = torch.from_numpy(scanpaths)
 
         return image, target
 
@@ -89,15 +89,15 @@ class TrajDataset(data.Dataset):
 def collate_fn(data):
 
     data.sort(key=lambda x: len(x[1]), reverse=True)
-    images, captions = zip(*data)
+    images, scanpaths = zip(*data)
 
     images = torch.stack(images, 0)
 
-    lengths = [len(cap) for cap in captions]
-    targets = torch.zeros(len(captions), max(lengths)).long()
-    for i, cap in enumerate(captions):
+    lengths = [len(scan) for scan in scanpaths]
+    targets = torch.zeros(len(scanpaths), max(lengths)).long()
+    for i, scan in enumerate(scanpaths):
         end = lengths[i]
-        targets[i, :end] = cap[:end]        
+        targets[i, :end] = scan[:end]        
     return images, targets, lengths
 
 def get_loader(image_resize, feat_sz, data_path, transform, batch_size, shuffle, num_workers):
