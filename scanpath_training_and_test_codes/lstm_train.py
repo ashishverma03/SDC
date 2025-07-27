@@ -68,16 +68,16 @@ def train(train_data_loader, encoder, decoder, criterion, optimizer, epoch, args
         total_step = len(train_data_loader)
         Avg_train_loss = np.zeros((1,total_step))
 
-        for i, (images, captions, lengths) in enumerate(train_data_loader):
+        for i, (images, scanpaths, lengths) in enumerate(train_data_loader):
             
 
             images = images.to(device)
-            captions = captions.to(device)
-            packed_targets = pack_padded_sequence(captions, lengths, batch_first=True)
-            targets = pack_padded_sequence(captions, lengths, batch_first=True)[0]
+            scanpaths = scanpaths.to(device)
+            packed_targets = pack_padded_sequence(scanpaths, lengths, batch_first=True)
+            targets = pack_padded_sequence(scanpaths, lengths, batch_first=True)[0]
             features = encoder(images)
 
-            outputs, unpacked_outputs, lens = decoder(features, captions, lengths)
+            outputs, unpacked_outputs, lens = decoder(features, scanpaths, lengths)
             loss = criterion(outputs, targets)
 
             decoder.zero_grad()
