@@ -12,7 +12,7 @@ python new_sample_lstm.py
 
 ### Train Scanpath Prediction Code
 
-* The pre-processed REFLACX dataset used in training is provided [here](https://drive.google.com/drive/folders/1yHONIc_4RMtzQFvR-qhHiNmlN8mEN71h). The images are resized to 256x256 and the corresponding scanpaths are scaled down to match the image size. Download it and keep extracted train, val and test folders in the [dataset](https://github.com/ashishverma03/SDC/tree/main/scanpath_training_and_test_codes/dataset) folder in the root directory.
+* The pre-processed REFLACX dataset used in training is provided [here](https://drive.google.com/drive/folders/1yHONIc_4RMtzQFvR-qhHiNmlN8mEN71h). The images are resized to 256x256 and the corresponding scanpaths are scaled down to match the image size. Download it and keep extracted train, val and test folders in the [dataset](https://github.com/ashishverma03/SDC/tree/main/scanpath_training_and_test_codes/dataset) folder in the in the scanpath_training_and_test_codes folder. 
 
   ``` run the codes
   python lstm_train.py
