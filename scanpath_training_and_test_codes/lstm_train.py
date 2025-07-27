@@ -153,8 +153,8 @@ if __name__ == '__main__':
     parser.add_argument('--image_resize', type=int, default=256 , help='input image to be resized to')
     parser.add_argument('--encoder_path', type=str, default='models/encoderepoch_200.ckpt', help='path for trained encoder')
     parser.add_argument('--decoder_path', type=str, default='models/decoderepoch_200.ckpt', help='path for trained decoder')
-    parser.add_argument('--train_path', type=str, default='data/train/', help='path for train annotation json file')
-    parser.add_argument('--val_path', type=str, default='data/val/', help='path for train annotation json file')
+    parser.add_argument('--train_path', type=str, default='dataset/train/', help='path for train annotation json file')
+    parser.add_argument('--val_path', type=str, default='dataset/val/', help='path for train annotation json file')
     parser.add_argument('--log_step', type=int , default=100, help='step size for printing log info')
     parser.add_argument('--save_step', type=int , default=600, help='step size for saving trained models')
     
