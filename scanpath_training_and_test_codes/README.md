@@ -17,7 +17,7 @@ python new_sample_lstm.py
   ``` run the codes
   python lstm_train.py
   ```
-* Check the [models](https://github.com/ashishverma03/SDC/tree/main/scanpath_training_and_test_codes/models) folder in the root directory for trained models.
+* Check the [models](https://github.com/ashishverma03/SDC/tree/main/scanpath_training_and_test_codes/models) folder in the scanpath_training_and_test_codes folder for trained models.
 * The 'sample_lstm.py' is code to generate artificial scanpaths on test images of the REFLACX dataset and compute SCANMATCH scores to select best model. 
 ```
 python sample_lstm.py
