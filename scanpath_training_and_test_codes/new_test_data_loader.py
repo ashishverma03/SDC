@@ -23,7 +23,7 @@ class TrajDataset(data.Dataset):
 
     def __init__(self, image_resize, feat_sz, data_path, transform=None, is_train=1):     
         self.root_img = data_path
-        self.root_cap = data_path
+        self.root_scan = data_path
         self.is_train = is_train
         self.transform = transform
         self.image_resize = image_resize
